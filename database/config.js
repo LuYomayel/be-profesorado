@@ -5,7 +5,7 @@ const dbConnection =  async() => {
         
         await mongoose.connect( process.env.MONGODB_CNN, {
             useNewUrlParser: true,
-            // useUnifiedTopology: true,
+            useUnifiedTopology: true,
             // useCreateIndex: true,
             // useFindAndModify:false,
            
@@ -15,7 +15,7 @@ const dbConnection =  async() => {
 
     } catch (error) {
         console.log(error)
-        // throw new Error('Error: no se pudo conectar a la base de datos');
+        throw new Error('Error: no se pudo conectar a la base de datos');
     }
 }
 
