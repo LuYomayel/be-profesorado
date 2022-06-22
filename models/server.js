@@ -1,7 +1,8 @@
 const express = require('express')
 const cors = require('cors')
-const usuarios = require('../routes/user.routes');
-const auth = require('../routes/auth.routes');
+
+const { userRoute, categorieRoute, productRoute, authRoute, searchRoute} = require('../routes')
+
 const { dbConnection } = require('../database/config');
 require('dotenv').config();
 
@@ -10,8 +11,11 @@ class Server{
     constructor(){
         this.app = express();
         this.port = process.env.PORT;
-        this.usuariosPath = '/api/users'
-        this.authPath = '/api/auth'
+        this.usuariosPath =     '/api/users'
+        this.authPath =         '/api/auth'
+        this.categoriesPath =   '/api/categories'
+        this.productPath =      '/api/products'
+        this.searchPatch =      '/api/search'
         // Conectar a base de datos
         this.conectarDB();
 
@@ -23,8 +27,11 @@ class Server{
     }
     
     routes(){
-        this.app.use(this.usuariosPath, usuarios)
-        this.app.use(this.authPath, auth)
+        this.app.use(this.usuariosPath, userRoute)
+        this.app.use(this.authPath, authRoute)
+        this.app.use(this.categoriesPath, categorieRoute)
+        this.app.use(this.productPath, productRoute)
+        this.app.use(this.searchPatch, searchRoute)
     }
 
     listen(){
