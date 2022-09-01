@@ -1,7 +1,8 @@
 const express = require('express')
 const cors = require('cors')
+const fileUpload = require('express-fileupload')
 
-const { userRoute, categorieRoute, productRoute, authRoute, searchRoute} = require('../routes')
+const { userRoute, categorieRoute, productRoute, authRoute, searchRoute, uploadRoute} = require('../routes')
 
 const { dbConnection } = require('../database/config');
 require('dotenv').config();
@@ -16,6 +17,7 @@ class Server{
         this.categoriesPath =   '/api/categories'
         this.productPath =      '/api/products'
         this.searchPatch =      '/api/search'
+        this.uploadPatch =      '/api/uploads'
         // Conectar a base de datos
         this.conectarDB();
 
@@ -32,6 +34,7 @@ class Server{
         this.app.use(this.categoriesPath, categorieRoute)
         this.app.use(this.productPath, productRoute)
         this.app.use(this.searchPatch, searchRoute)
+        this.app.use(this.uploadPatch, uploadRoute)
     }
 
     listen(){
@@ -42,6 +45,10 @@ class Server{
         this.app.use( cors() );
         this.app.use( express.static('public'));
         this.app.use( express.json () )
+        this.app.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/'
+        }));
     }
 
     async conectarDB(){
