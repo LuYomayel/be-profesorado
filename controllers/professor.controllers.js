@@ -1,15 +1,15 @@
 const {response} = require('express')
 // const { Student } = require('../models')
 const { config } = require ('../database/config')
-const controllersFunctions = require('../controllers/controllers.functions')
+const controllersFunctions = require('./controllers.functions')
 const faker = require('@faker-js/faker')
 const { options } = require('moongose/routes')
 
-const getAllStudents = async()=>{
+const getAllProfessors = async()=>{
     return new Promise(async (resolve, reject) => {
         try {
             const connection = await controllersFunctions.newConnection();
-            const sp = 'sp_getAlumnos';
+            const sp = 'sp_getProfesores';
             const paramsSP = `()`
             const results = await controllersFunctions.query(connection, sp, paramsSP, true);
             if (results.length > 0) {
@@ -26,11 +26,11 @@ const getAllStudents = async()=>{
     
 }
 
-const getStudent = async(params)=>{
+const getProfessor = async(params)=>{
     return new Promise(async (resolve, reject) => {
         try {
             const connection = await controllersFunctions.newConnection();
-            const sp = 'sp_getAlumno';
+            const sp = 'sp_getProfesor';
             // resolve(params.id)
             const paramsSP = `(${params.id})`
             const results = await controllersFunctions.query(connection, sp, paramsSP, true);
@@ -48,11 +48,11 @@ const getStudent = async(params)=>{
     
 }
 
-const addStudent = async(body)=>{
+const addProfessor = async(body)=>{
     return new Promise(async (resolve, reject) => {
         try {
             const connection = await controllersFunctions.newConnection();
-            const sp = 'sp_addAlumno';
+            const sp = 'sp_addProfesor';
             const randomName = faker.faker.name.fullName().split(' ')[0];
             const randomLastName = faker.faker.name.fullName().split(' ')[1];
             const randmonBirth = faker.faker.date.between('1970-01-01T00:00:00.000Z', '2000-01-01T00:00:00.000Z')
@@ -75,11 +75,11 @@ const addStudent = async(body)=>{
     
 }
 
-const putStudent = async(params, body,req)=>{
+const putProfessor = async(params, body,req)=>{
     return new Promise(async (resolve, reject) => {
         try {
             const connection = await controllersFunctions.newConnection();
-            const sp = 'sp_putAlumno';
+            const sp = 'sp_putProfesor';
 
             const alumno = req.user[0];
 
@@ -115,8 +115,8 @@ const putStudent = async(params, body,req)=>{
 }
 
 module.exports = {
-    getStudent,
-    addStudent,
-    getAllStudents,
-    putStudent
+    getProfessor,
+    addProfessor,
+    getAllProfessors,
+    putProfessor
 }

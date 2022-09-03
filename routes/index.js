@@ -5,6 +5,7 @@ const userRoute = require('./user.routes')
 const searchRoute = require('./search.routes')
 const uploadRoute = require('./uploads.routes')
 const studentRoute = require('./student.routes')
+const professorRoute = require('./professor.routes')
 
 module.exports = {
     categorieRoute,
@@ -13,5 +14,6 @@ module.exports = {
     authRoute,
     searchRoute,
     uploadRoute,
-    studentRoute
+    studentRoute,
+    professorRoute
 }

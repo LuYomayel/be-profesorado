@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const fileUpload = require('express-fileupload')
 
-const { userRoute, categorieRoute, productRoute, authRoute, searchRoute, uploadRoute, studentRoute} = require('../routes')
+const { userRoute, categorieRoute, productRoute, authRoute, searchRoute, uploadRoute, studentRoute, professorRoute} = require('../routes')
 
 const { dbConnection } = require('../database/config');
 require('dotenv').config();
@@ -19,6 +19,7 @@ class Server{
         // this.searchPatch =      '/api/search'
         // this.uploadPatch =      '/api/uploads'
         this.studentPatch =      '/api/students'
+        this.professorPatch =      '/api/professors'
         // Conectar a base de datos
         this.conectarDB();
 
@@ -37,6 +38,7 @@ class Server{
         // this.app.use(this.searchPatch, searchRoute)
         // this.app.use(this.uploadPatch, uploadRoute)
         this.app.use(this.studentPatch, studentRoute)
+        this.app.use(this.professorPatch, professorRoute)
     }
 
     listen(){

@@ -1,17 +1,17 @@
 const { Router } = require('express');
 
-const studentFunctions = require('../controllers/student.controllers');
+const professorFunctions = require('../controllers/professor.controllers');
 
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { existStudent } = require('../helpers/db-validators');
-const { validateStudent } = require('../middlewares/validate-existencia');
+const { validateProfessor } = require('../middlewares/validate-existencia');
 
 const router = Router();
 
-// Devuelve todos los alumnos
+// Devuelve todos los profesores
 router.get('/', (req, res)=>{
-    studentFunctions.getAllStudents()
+    professorFunctions.getAllProfessors()
         .then( response => {
             res.status(200).send(response)
         })
@@ -20,9 +20,9 @@ router.get('/', (req, res)=>{
         })
 });
 
-// Devuelve un alumno por id
+// Devuelve un profesor por id
 router.get('/:id', (req, res)=>{
-    studentFunctions.getStudent(req.params)
+    professorFunctions.getProfessor(req.params)
         .then( response => {
             res.status(200).send(response)
         })
@@ -31,9 +31,9 @@ router.get('/:id', (req, res)=>{
         })
 });
 
-// Agrega un alumno
+// Agrega un profesor
 router.post('/', (req, res)=>{
-    studentFunctions.addStudent()
+    professorFunctions.addProfessor()
         .then( response => {
             res.status(200).send(response)
         })
@@ -42,13 +42,13 @@ router.post('/', (req, res)=>{
         })
 });
 
-// Agrega un alumno
+// Agrega un profesor
 router.put('/:id',[
-    validateStudent,
+    validateProfessor,
     // check('id').custom(existStudent),
     validarCampos
 ], (req, res)=>{
-    studentFunctions.putStudent(req.params, req.body,req)
+    professorFunctions.putProfessor(req.params, req.body,req)
         .then( response => {
             res.status(200).send(response)
         })
