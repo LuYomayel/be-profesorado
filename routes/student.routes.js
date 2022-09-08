@@ -21,7 +21,10 @@ router.get('/', (req, res)=>{
 });
 
 // Devuelve un alumno por id
-router.get('/:id', (req, res)=>{
+router.get('/:id',[
+    check('id', 'Debe completar el id').not().isEmpty(),
+    validarCampos
+], (req, res)=>{
     studentFunctions.getStudent(req.params)
         .then( response => {
             res.status(200).send(response)
@@ -32,8 +35,21 @@ router.get('/:id', (req, res)=>{
 });
 
 // Agrega un alumno
-router.post('/', (req, res)=>{
-    studentFunctions.addStudent()
+router.post('/', [
+    check('nombre', 'Debe completar el nombre').not().isEmpty(),
+    check('apellido', 'Debe completar el apellido').not().isEmpty(),
+    check('direccion', 'Debe completar el direccion').not().isEmpty(),
+    check('telefono', 'Debe completar el telefono').not().isEmpty(),
+    check('email', 'Debe completar el email').not().isEmpty(),
+    check('email', 'El correo es invalido').isEmail(),
+    check('fechaNac', 'Debe completar la fecha de nacimiento').not().isEmpty(),
+    check('fechaNac', 'Fecha de nacimiento inválida').isDate(),
+    check('dni', 'Debe completar el documento').not().isEmpty(),
+    check('dni', 'Documento inválido').isIdentityCard('ar-TN'),
+    // check('id').custom(existStudent),
+    validarCampos
+],  (req, res)=>{
+    studentFunctions.addStudent(req.body)
         .then( response => {
             res.status(200).send(response)
         })
@@ -44,11 +60,27 @@ router.post('/', (req, res)=>{
 
 // Agrega un alumno
 router.put('/:id',[
+    check('id', 'Debe completar el id').not().isEmpty(),
     validateStudent,
     // check('id').custom(existStudent),
     validarCampos
 ], (req, res)=>{
     studentFunctions.putStudent(req.params, req.body,req)
+        .then( response => {
+            res.status(200).send(response)
+        })
+        .catch(err=>{
+            res.status(500).send(err)
+        })
+});
+
+router.delete('/:id',[
+    check('id', 'Debe completar el id').not().isEmpty(),
+    validateStudent,
+    // check('id').custom(existStudent),
+    validarCampos
+], (req, res)=>{
+    studentFunctions.deleteStudent(req.params)
         .then( response => {
             res.status(200).send(response)
         })

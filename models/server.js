@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const fileUpload = require('express-fileupload')
 
-const { userRoute, categorieRoute, productRoute, authRoute, searchRoute, uploadRoute, studentRoute, professorRoute} = require('../routes')
+const { userRoute, authRoute, searchRoute, uploadRoute, studentRoute, professorRoute} = require('../routes')
 
 const { dbConnection } = require('../database/config');
 require('dotenv').config();
@@ -12,7 +12,7 @@ class Server{
     constructor(){
         this.app = express();
         this.port = process.env.PORT || 8080;
-        // this.usuariosPath =     '/api/users'
+        this.usuariosPath =     '/api/users'
         // this.authPath =         '/api/auth'
         // this.categoriesPath =   '/api/categories'
         // this.productPath =      '/api/products'
@@ -31,10 +31,8 @@ class Server{
     }
     
     routes(){
-        // this.app.use(this.usuariosPath, userRoute)
+        this.app.use(this.usuariosPath, userRoute)
         // this.app.use(this.authPath, authRoute)
-        // this.app.use(this.categoriesPath, categorieRoute)
-        // this.app.use(this.productPath, productRoute)
         // this.app.use(this.searchPatch, searchRoute)
         // this.app.use(this.uploadPatch, uploadRoute)
         this.app.use(this.studentPatch, studentRoute)

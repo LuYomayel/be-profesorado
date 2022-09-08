@@ -32,8 +32,20 @@ router.get('/:id', (req, res)=>{
 });
 
 // Agrega un profesor
-router.post('/', (req, res)=>{
-    professorFunctions.addProfessor()
+router.post('/',[
+    check('nombre', 'Debe completar el nombre').not().isEmpty(),
+    check('apellido', 'Debe completar el apellido').not().isEmpty(),
+    check('direccion', 'Debe completar el direccion').not().isEmpty(),
+    check('telefono', 'Debe completar el telefono').not().isEmpty(),
+    check('email', 'Debe completar el email').not().isEmpty(),
+    check('email', 'El correo es invalido').isEmail(),
+    check('fechaNac', 'Debe completar la fecha de nacimiento').not().isEmpty(),
+    check('fechaNac', 'Fecha de nacimiento inválida').isDate(),
+    check('dni', 'Debe completar el documento').not().isEmpty(),
+    check('dni', 'Documento inválido').isIdentityCard('ar-TN'),
+    validarCampos
+], (req, res)=>{
+    professorFunctions.addProfessor(req.body)
         .then( response => {
             res.status(200).send(response)
         })
@@ -57,6 +69,19 @@ router.put('/:id',[
         })
 });
 
-
+router.delete('/:id',[
+    check('id', 'Debe completar el id').not().isEmpty(),
+    validateProfessor,
+    // check('id').custom(existStudent),
+    validarCampos
+], (req, res)=>{
+    professorFunctions.deleteProfessor(req.params)
+        .then( response => {
+            res.status(200).send(response)
+        })
+        .catch(err=>{
+            res.status(500).send(err)
+        })
+});
 
 module.exports = router;

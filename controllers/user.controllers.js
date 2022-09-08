@@ -1,41 +1,81 @@
 const { response } = require('express')
-const User = require('../models/user')
+
 const bcrypt = require('bcryptjs')
+const controllersFunctions = require('../controllers/controllers.functions')
 
+const userGet = async()=> {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const connection = await controllersFunctions.newConnection();
+            const sp = 'sp_getUsuarios';
+            const paramsSP = `()`
+            const results = await controllersFunctions.query(connection, sp, paramsSP, true);
+            if (results.length > 0) {
+                resolve(results[0]);
+            }
+            else {
+                reject('Error: No se encontraron registros');
+            }
 
-const userGet = async(req, res = response)=> {
-    const { limit = 5, since = 0 } = req.query;
-    const query = {estado:true}
-    // const users = await User.find(query)
-    //     .limit(Number(limit))
-    //     .skip(Number(since))
-
-    // const total = await User.countDocuments(query);
-
-    const [ total, users] = await Promise.all([
-        User.countDocuments(query),
-        User.find(query)
-        .limit(Number(limit))
-        .skip(Number(since))
-    ])
-
-    res.json({
-        total,
-        users
-    })
+        } catch (err) {
+            reject(err);
+        }
+    });
+    
 }
 
-const userGetById = async(req, res = response)=> {
-    console.log(req.params.id)
-    const user = await User.findById(req.params.id)
-    res.json({
-        user
-    })
-    // console.log(user)
+const userGetById = async(params)=> {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const connection = await controllersFunctions.newConnection();
+            const sp = 'sp_getUsuario';
+            const paramsSP = `(${params.id})`
+            const results = await controllersFunctions.query(connection, sp, paramsSP, true);
+            if (results.length > 0) {
+                resolve(results[0]);
+            }
+            else {
+                reject('Error: No se encontraron registros');
+            }
+
+        } catch (err) {
+            reject(err);
+        }
+    });
 }
 
-const userPost = async (req, res = response)=> {
+const userPut = async (params)=> {
+    return new Promise(async (resolve, reject) => {
+        try {
+            // const result = await userGet();
+            // const {getAllProfessors} = require('./professor.controllers')
+            // const profesores = await getAllProfessors();
+            // const connection = await controllersFunctions.newConnection();
+            // const sp = 'sp_putUsuario';
+            // if(profesores){
+            //     profesores.forEach(async (alumno, index) => {
+            //         const nombreCompleto = `${alumno.nombre}${alumno.apellido}`;
+            //         result.forEach(async (usuario,index) => {
+            //             const usuarioNombreCompleto = usuario.email.split('@')[0];
+            //             if(nombreCompleto == usuarioNombreCompleto) {
+                            
+                            
+            //                 const paramsSP = `(${usuario.idUsuario}, '${alumno.dni}')`
+            //                 const results = await controllersFunctions.query(connection, sp, paramsSP, false);
 
+            //             }
+            //         })
+
+            //     })
+            // }
+            // // console.log(result)
+            // // const salt = bcrypt.genSaltSync();
+            // resolve(profesores)
+
+        } catch (err) {
+            reject(err);
+        }
+    });
     
 
     const {name, email, password, role} = new User(req.body);
@@ -54,22 +94,22 @@ const userPost = async (req, res = response)=> {
     })
 }
 
-const userPut= async(req, res = response)=> {
-    const { id } = req.params;
-    const { _id, password, google,email, ...resto} = req.body;
+// const userPut= async(req, res = response)=> {
+//     const { id } = req.params;
+//     const { _id, password, google,email, ...resto} = req.body;
 
-    //TODO Validar contra BBDD
-    if(password){
-        const salt = bcrypt.genSaltSync(); // Por defecto en 10
-        resto.password = bcrypt.hashSync( password, salt );
-    }
+//     //TODO Validar contra BBDD
+//     if(password){
+//         const salt = bcrypt.genSaltSync(); // Por defecto en 10
+//         resto.password = bcrypt.hashSync( password, salt );
+//     }
 
-    const user  = await User.findByIdAndUpdate(id, resto)
+//     const user  = await User.findByIdAndUpdate(id, resto)
 
-    res.json({
-        user
-    })
-}
+//     res.json({
+//         user
+//     })
+// }
 
 const userDelete = async (req, res = response)=> {
     const {id} = req.params;
@@ -86,7 +126,6 @@ const userDelete = async (req, res = response)=> {
 module.exports = {
     userGet,
     userDelete,
-    userPost,
     userPut,
     userGetById
 }

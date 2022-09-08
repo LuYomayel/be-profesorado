@@ -5,34 +5,38 @@ const { check } = require('express-validator');
 const {validarCampos, validarJWT, hasRole, isAdminRole} = require('../middlewares')
 
 const { validRole, existMail, existUser } = require('../helpers/db-validators');
-
+const userFunctions = require('../controllers/user.controllers')
 
 const router = Router();
 
-router.get('/', userGet)
-router.get('/:id', userGetById)
-router.post('/',[ 
-    check('email', 'El correo no es valido').isEmail(),
-    check('name', 'El nombre es obligatorio').not().isEmpty(),
-    check('password', 'El password debe contener mas de 6 caracteres').isLength({min:6}),
-    // check('role', 'No es un role valido').isIn(['ADMIN_ROLE', 'USER_ROLE']),
-    check('role').custom(validRole),
-    check('email').custom(existMail),
-    validarCampos
-], userPost)
-router.put('/:id', [
-    check('id', 'No es un ID válido').isMongoId(),
-    check('id').custom(existUser),
-    check('role').custom(validRole),
-    validarCampos
-], userPut)
-router.delete('/:id',[
-    validarJWT,
-    // isAdminRole,
-    hasRole(['ADMIN_ROLE', 'USER_ROLE']),
-    check('id', 'No es un ID válido').isMongoId(),
-    check('id').custom(existUser),
-    validarCampos
-], userDelete)
+router.get('/', (req, res)=>{
+    userFunctions.userGet()
+        .then( response => {
+            res.status(200).send(response)
+        })
+        .catch(err=>{
+            res.status(500).send(err)
+        })
+})
+router.get('/:id', (req, res)=>{
+    userFunctions.userGetById(req.params)
+        .then( response => {
+            res.status(200).send(response)
+        })
+        .catch(err=>{
+            res.status(500).send(err)
+        })
+})
+
+router.put('/:id', (req, res)=>{
+    userFunctions.userPut(req.params)
+        .then( response => {
+            res.status(200).send(response)
+        })
+        .catch(err=>{
+            res.status(500).send(err)
+        })
+})
+
 
 module.exports = router;
