@@ -28,8 +28,8 @@ router.get('/:id', (req, res)=>{
         })
 })
 
-router.put('/:id', (req, res)=>{
-    userFunctions.userPut(req.params)
+router.put('/:dni', (req, res)=>{
+    userFunctions.userPut(req.params, req.body)
         .then( response => {
             res.status(200).send(response)
         })

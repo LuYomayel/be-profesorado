@@ -68,7 +68,11 @@ const addProfessor = async(body)=>{
             const paramsSP = `('${nombre}', '${apellido}', '${documento}', '${telefono}', '${direccion}', '${fechaNac.toISOString().split('T')[0]}', '${email}', '${contraseña}')`
             const results = await controllersFunctions.query(connection, sp, paramsSP, true);
             console.log(documento)
-            resolve('OK')
+            if(results.affectedRows > 0){
+                resolve('OK')
+            }else{
+                reject('No se pudieron realizar los cambios solicitados')
+            }
 
         } catch (err) {
             reject(err);
@@ -105,8 +109,12 @@ const putProfessor = async(params, body,req)=>{
             
             const paramsSP = `(${params.id},'${nombre}', '${apellido}', '${dni}', '${telefono}', '${direccion}', '${fechaNac.toISOString().split('T')[0]}')`
             const results = await controllersFunctions.query(connection, sp, paramsSP, true);
-
-            resolve('OK')
+            if(results.affectedRows > 0){
+                resolve('OK')
+            }else{
+                reject('No se pudieron realizar los cambios solicitados')
+            }
+            // resolve('OK')
 
 
         } catch (err) {
@@ -124,7 +132,11 @@ const deleteProfessor = async(params)=>{
             // resolve(params.id)
             const paramsSP = `(${params.id})`
             const results = await controllersFunctions.query(connection, sp, paramsSP, true);
-            resolve('OK')
+            if(results.affectedRows > 0){
+                resolve('OK')
+            }else{
+                reject('No se pudieron realizar los cambios solicitados')
+            }
 
         } catch (err) {
             reject(err);

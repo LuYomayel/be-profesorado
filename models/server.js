@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const fileUpload = require('express-fileupload')
 
-const { userRoute, authRoute, searchRoute, uploadRoute, studentRoute, professorRoute} = require('../routes')
+const { userRoute, authRoute, searchRoute, uploadRoute, studentRoute, professorRoute, subjectRoute, carreerRoute} = require('../routes')
 
 const { dbConnection } = require('../database/config');
 require('dotenv').config();
@@ -12,14 +12,16 @@ class Server{
     constructor(){
         this.app = express();
         this.port = process.env.PORT || 8080;
-        this.usuariosPath =     '/api/users'
-        // this.authPath =         '/api/auth'
-        // this.categoriesPath =   '/api/categories'
-        // this.productPath =      '/api/products'
-        // this.searchPatch =      '/api/search'
-        // this.uploadPatch =      '/api/uploads'
-        this.studentPatch =      '/api/students'
-        this.professorPatch =      '/api/professors'
+        this.usuariosPath =         '/api/users'
+        // this.authPath =          '/api/auth'
+        // this.categoriesPath =    '/api/categories'
+        // this.productPath =       '/api/products'
+        // this.searchPatch =       '/api/search'
+        // this.uploadPatch =       '/api/uploads'
+        this.studentPatch =         '/api/students'
+        this.professorPatch =       '/api/professors'
+        this.subjectPatch =         '/api/subjects'
+        this.carreerPatch =         '/api/carreers'
         // Conectar a base de datos
         this.conectarDB();
 
@@ -37,6 +39,8 @@ class Server{
         // this.app.use(this.uploadPatch, uploadRoute)
         this.app.use(this.studentPatch, studentRoute)
         this.app.use(this.professorPatch, professorRoute)
+        this.app.use(this.subjectPatch, subjectRoute)
+        this.app.use(this.carreerPatch, carreerRoute)
     }
 
     listen(){

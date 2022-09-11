@@ -44,33 +44,47 @@ const userGetById = async(params)=> {
     });
 }
 
-const userPut = async (params)=> {
+const userGetByDNI = async(params)=> {
     return new Promise(async (resolve, reject) => {
         try {
-            // const result = await userGet();
-            // const {getAllProfessors} = require('./professor.controllers')
-            // const profesores = await getAllProfessors();
-            // const connection = await controllersFunctions.newConnection();
-            // const sp = 'sp_putUsuario';
-            // if(profesores){
-            //     profesores.forEach(async (alumno, index) => {
-            //         const nombreCompleto = `${alumno.nombre}${alumno.apellido}`;
-            //         result.forEach(async (usuario,index) => {
-            //             const usuarioNombreCompleto = usuario.email.split('@')[0];
-            //             if(nombreCompleto == usuarioNombreCompleto) {
-                            
-                            
-            //                 const paramsSP = `(${usuario.idUsuario}, '${alumno.dni}')`
-            //                 const results = await controllersFunctions.query(connection, sp, paramsSP, false);
+            const connection = await controllersFunctions.newConnection();
+            const sp = 'sp_getUsuarioByDNI';
+            
+            const paramsSP = `(${params.dni})`
+            const results = await controllersFunctions.query(connection, sp, paramsSP, true);
+            
+            if (results[0].length > 0) {
+                resolve(results[0]);
+            }
+            else {
+                
+                reject('Error: Ese usuario no existe');
+            }
 
-            //             }
-            //         })
+        } catch (err) {
+            reject(err);
+        }
+    });
+}
 
-            //     })
-            // }
-            // // console.log(result)
-            // // const salt = bcrypt.genSaltSync();
-            // resolve(profesores)
+const userPut = async (params, body)=> {
+    return new Promise(async (resolve, reject) => {
+        try {
+            
+            const contra = body.contraseña;
+            
+            const connection = await controllersFunctions.newConnection();
+            const sp = 'sp_putUsuario';
+            const paramsSP = `('${params.dni}', '${body.contraseña}')`;
+            // console.log(paramsSP)
+            const results = await controllersFunctions.query(connection, sp, paramsSP, true);
+            if(results.affectedRows > 0){
+                resolve('OK')
+            }else{
+                reject('No se pudieron realizar los cambios solicitados')
+            }
+            
+            
 
         } catch (err) {
             reject(err);
@@ -127,5 +141,6 @@ module.exports = {
     userGet,
     userDelete,
     userPut,
-    userGetById
+    userGetById,
+    userGetByDNI
 }

@@ -26,13 +26,15 @@ CREATE TABLE `profesores` (
   `idProfesor` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
   `apellido` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
-  `dni` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
+  `dni` varchar(45) COLLATE utf8mb3_bin NOT NULL,
   `telefono` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
   `direccion` varchar(45) COLLATE utf8mb3_bin DEFAULT NULL,
   `fechaNac` date DEFAULT NULL,
+  `estado` tinyint NOT NULL DEFAULT '1',
   PRIMARY KEY (`idProfesor`),
-  UNIQUE KEY `idProfesor_UNIQUE` (`idProfesor`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+  UNIQUE KEY `idProfesor_UNIQUE` (`idProfesor`),
+  UNIQUE KEY `dni_UNIQUE` (`dni`)
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +43,7 @@ CREATE TABLE `profesores` (
 
 LOCK TABLES `profesores` WRITE;
 /*!40000 ALTER TABLE `profesores` DISABLE KEYS */;
-INSERT INTO `profesores` VALUES (1,'Horace','Murazik','42886854','1177519665','Urquiza 3739','1972-08-01'),(2,'Martha','Sandra','89945724','1135906135','Suite 485','1999-01-13'),(3,'Adrian','Huels','06673711','1176406602','Apt. 881','1983-02-25'),(4,'Kathleen','Hodkiewicz','64812863','1191291801','Apt. 985','1990-09-06'),(5,'Todd','Dickens','15886259','1196226942','Apt. 478','1975-03-26'),(6,'Edward','Dietrich','85026646','1186880828','Suite 674','1995-08-12'),(7,'Lorena','Borer','50958864','1100013064','Suite 075','1991-11-07'),(8,'Mrs.','Bernhard','06030709','1199138584','Apt. 389','1989-12-28'),(9,'Josh','Sporer','01044896','1186680708','Suite 416','1982-07-31'),(10,'Linda','Armstrong','34695606','1125302003','Suite 330','1995-02-02'),(11,'Diane','Parker','95837751','1157888607','Suite 024','1989-09-03'),(12,'Ann','Effertz','89019425','1116974775','Apt. 182','1971-05-04'),(13,'Delores','McLaughlin','20529277','1152231896','Suite 401','1975-07-31'),(14,'Eva','Heathcote','55300418','1182476441','Suite 949','1980-02-09'),(15,'Santiago','Koelpin','52488059','1165147577','Apt. 711','1996-09-05'),(16,'Charlie','Pat','34572464','1118734233','Apt. 068','1985-09-02'),(17,'Ted','Kreiger','79830425','1140583480','Suite 006','1983-12-01'),(18,'Phyllis','Turcotte','11414497','1190755163','Apt. 414','1986-11-19'),(19,'Miss','Klocko','72899584','1171116874','Apt. 396','1986-05-29'),(20,'Jaime','Prosacco','51550018','1178258713','Suite 270','1983-01-25'),(21,'Mr.','Davis','06088392','1138800060','Suite 662','1988-02-22'),(22,'Tami','Kuhic','78850459','1147923513','Suite 270','1998-02-23'),(23,'Sue','Bayer','63242930','1168935307','Suite 222','1971-10-16'),(24,'Ms.','Hand','01180492','1157061153','Suite 093','1972-10-26'),(25,'Alan','Gibson','32233596','1172104056','Suite 886','1987-09-14'),(26,'Keith','Dach','23488397','1139915293','Apt. 429','1997-03-17'),(27,'Vivian','Heller','21468499','1137282839','Suite 340','1996-07-20'),(28,'Joan','Keeling','81114484','1109769164','Apt. 828','1986-10-09'),(29,'Leslie','Gulgowski','79683389','1118680995','Suite 540','1975-05-25'),(30,'Anthony','Stark','22758083','1178791318','Suite 119','1989-08-31');
+INSERT INTO `profesores` VALUES (1,'Horace','Murazik','42886854','1177519665','Urquiza 3739','1972-08-01',1),(2,'Martha','Sandra','89945724','1135906135','Suite 485','1999-01-13',1),(3,'Adrian','Huels','06673711','1176406602','Apt. 881','1983-02-25',1),(4,'Kathleen','Hodkiewicz','64812863','1191291801','Apt. 985','1990-09-06',1),(5,'Todd','Dickens','15886259','1196226942','Apt. 478','1975-03-26',1),(6,'Edward','Dietrich','85026646','1186880828','Suite 674','1995-08-12',1),(7,'Lorena','Borer','50958864','1100013064','Suite 075','1991-11-07',1),(8,'Mrs.','Bernhard','06030709','1199138584','Apt. 389','1989-12-28',1),(9,'Josh','Sporer','01044896','1186680708','Suite 416','1982-07-31',1),(10,'Linda','Armstrong','34695606','1125302003','Suite 330','1995-02-02',0),(11,'Diane','Parker','95837751','1157888607','Suite 024','1989-09-03',0),(12,'Ann','Effertz','89019425','1116974775','Apt. 182','1971-05-04',1),(13,'Delores','McLaughlin','20529277','1152231896','Suite 401','1975-07-31',1),(14,'Eva','Heathcote','55300418','1182476441','Suite 949','1980-02-09',1),(15,'Santiago','Koelpin','52488059','1165147577','Apt. 711','1996-09-05',1),(16,'Charlie','Pat','34572464','1118734233','Apt. 068','1985-09-02',1),(17,'Ted','Kreiger','79830425','1140583480','Suite 006','1983-12-01',1),(18,'Phyllis','Turcotte','11414497','1190755163','Apt. 414','1986-11-19',1),(19,'Miss','Klocko','72899584','1171116874','Apt. 396','1986-05-29',1),(20,'Jaime','Prosacco','51550018','1178258713','Suite 270','1983-01-25',1),(21,'Mr.','Davis','06088392','1138800060','Suite 662','1988-02-22',1),(22,'Tami','Kuhic','78850459','1147923513','Suite 270','1998-02-23',1),(23,'Sue','Bayer','63242930','1168935307','Suite 222','1971-10-16',1),(24,'Ms.','Hand','01180492','1157061153','Suite 093','1972-10-26',1),(25,'Alan','Gibson','32233596','1172104056','Suite 886','1987-09-14',1),(26,'Keith','Dach','23488397','1139915293','Apt. 429','1997-03-17',1),(27,'Vivian','Heller','21468499','1137282839','Suite 340','1996-07-20',1),(28,'Joan','Keeling','81114484','1109769164','Apt. 828','1986-10-09',1),(29,'Leslie','Gulgowski','79683389','1118680995','Suite 540','1975-05-25',1),(30,'Anthony','Stark','22758083','1178791318','Suite 119','1989-08-31',0);
 /*!40000 ALTER TABLE `profesores` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-03 19:17:38
+-- Dump completed on 2022-09-10 23:00:21
