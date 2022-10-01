@@ -47,7 +47,7 @@ router.post('/',[
 ], (req, res)=>{
     professorFunctions.addProfessor(req.body)
         .then( response => {
-            res.status(200).send(response)
+            res.status(200).send({response})
         })
         .catch(err=>{
             res.status(500).send(err)
@@ -62,7 +62,7 @@ router.put('/:id',[
 ], (req, res)=>{
     professorFunctions.putProfessor(req.params, req.body,req)
         .then( response => {
-            res.status(200).send(response)
+            res.status(200).send({response})
         })
         .catch(err=>{
             res.status(500).send(err)
@@ -77,7 +77,7 @@ router.delete('/:id',[
 ], (req, res)=>{
     professorFunctions.deleteProfessor(req.params)
         .then( response => {
-            res.status(200).send(response)
+            res.status(200).send({response})
         })
         .catch(err=>{
             res.status(500).send(err)

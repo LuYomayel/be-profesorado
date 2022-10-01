@@ -67,7 +67,7 @@ const addStudent = async(body)=>{
             
             const paramsSP = `('${nombre}', '${apellido}', '${documento}', '${telefono}', '${direccion}', '${fechaNac.toISOString().split('T')[0]}', '${email}', '${contraseña}')`
             const results = await controllersFunctions.query(connection, sp, paramsSP, true);
-            // console.log(paramsSP)
+            console.log('Results:',results)
             if(results.affectedRows > 0){
                 resolve('OK')
             }else{

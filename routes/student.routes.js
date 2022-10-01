@@ -51,7 +51,7 @@ router.post('/', [
 ],  (req, res)=>{
     studentFunctions.addStudent(req.body)
         .then( response => {
-            res.status(200).send(response)
+            res.status(200).send({response})
         })
         .catch(err=>{
             res.status(500).send(err)
@@ -82,7 +82,7 @@ router.delete('/:id',[
 ], (req, res)=>{
     studentFunctions.deleteStudent(req.params)
         .then( response => {
-            res.status(200).send(response)
+            res.status(200).send({response})
         })
         .catch(err=>{
             res.status(500).send(err)
