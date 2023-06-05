@@ -118,6 +118,7 @@ const putStudent = async(params, body,req)=>{
 
 
         } catch (err) {
+            console.log('Error', err)
             reject(err);
         }
     });

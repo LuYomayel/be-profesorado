@@ -67,7 +67,7 @@ router.put('/:id',[
 ], (req, res)=>{
     studentFunctions.putStudent(req.params, req.body,req)
         .then( response => {
-            res.status(200).send(response)
+            res.status(200).send({response})
         })
         .catch(err=>{
             res.status(500).send(err)
